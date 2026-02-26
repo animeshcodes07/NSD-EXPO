@@ -26,11 +26,11 @@ from argparse import ArgumentParser
 # so the rest of the code can remain unchanged.
 try:
     # newer randomgen versions
-    from randomgen import PCG64
+    from numpy.random import PCG64
     from numpy.random import Generator
 except ImportError:  # pragma: no cover
     # fall back for older versions
-    from randomgen import PCG64, Generator
+    from numpy.random import PCG64, Generator
 
 # local project imports
 from person import Person
@@ -38,14 +38,7 @@ from bottleneck import Bottleneck
 from floorparse import FloorParser
 
 pp = pprint.PrettyPrinter(indent=4).pprint
-
 class FireSim:
-    sim = None
-    graph = None # dictionary (x,y) --> attributes
-    gui = False
-    r = None
-    c = None
-
     numpeople = 0
     numdead = 0
     numsafe = 0
@@ -423,7 +416,8 @@ def main():
     print('commandline arguments:', args, '\n')
 
     # set up random streams
-    streams = [Generator(PCG64(args.random_state, i)) for i in range(5)]
+    # streams = [Generator(PCG64(args.random_state, i)) for i in range(5)]
+    streams = [Generator(PCG64(args.random_state + i)) for i in range(5)]
     loc_strm, strat_strm, rate_strm, pax_strm, fire_strm = streams
 
     location_sampler = loc_strm.choice # used to make initial placement of pax
