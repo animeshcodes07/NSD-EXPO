@@ -43,7 +43,7 @@ class Plotter:
         plt.scatter(x, y, c=c, cmap=cmap, norm=norm, edgecolors='white', linewidths=0.5, s=100)
 
 
-    def visualize(self, graph={(3,4): {'F': 1}}, people=None, delay=.01):
+    def visualize(self, graph={(3,4): {'F': 1}}, people=None, delay=.01, t=None):
         '''
         Draw the current state of `graph` and `people`.
 
@@ -103,8 +103,11 @@ class Plotter:
 
         self.draw_people(X, Y, C)
 
-        # title does not display simulation time because it's not tracked here
-        plt.title('Fire Evacuation Simulation', fontsize=14, color='#2c3e50')
+        # title displays simulation time if provided
+        title = 'Fire Evacuation Simulation'
+        if t is not None:
+            title += f' (Time: {t:.2f}s)'
+        plt.title(title, fontsize=14, color='#2c3e50')
         
         # matplotlib housekeeping
         plt.draw()

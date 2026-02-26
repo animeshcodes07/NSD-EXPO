@@ -109,7 +109,7 @@ class Person:
         self.id = id
         self.rate = rate
         self.strategy = strategy
-        self.loc = loc
+        self.loc = tuple(loc) if loc is not None else (0, 0)
 
         self.alive = True
         self.safe = False
@@ -157,7 +157,7 @@ class Person:
             choice = random.choice(passable_nbrs)
 
         loc, attrs = choice
-        self.loc = loc
+        self.loc = tuple(loc)
 
         if attrs['S']:
             self.safe = True

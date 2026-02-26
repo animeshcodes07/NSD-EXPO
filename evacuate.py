@@ -172,11 +172,11 @@ class FireSim:
              )
 
 
-    def visualize(self, t):
+    def visualize(self, delay):
         '''
         '''
         if self.gui:
-            self.plotter.visualize(self.graph, self.people, t)
+            self.plotter.visualize(self.graph, self.people, delay, t=self.sim.now)
 
 
     def update_bottlenecks(self):
@@ -318,7 +318,7 @@ class FireSim:
                 self.sim.sched(self.update_person, person_ix, offset=1/p.rate)
 
         if (1+person_ix) % int(self.numpeople**.5) == 0:
-            self.visualize(t=self.animation_delay/len(self.people)/2)
+            self.visualize(delay=self.animation_delay/len(self.people)/2)
 
         # self.sim.show_calendar()
 
@@ -435,7 +435,7 @@ def main():
                     bottleneck_delay=args.bottleneck_delay,
                     animation_delay=args.animation_delay, verbose=args.output)
 
-    # floor.visualize(t=5000)
+    # floor.visualize(delay=5000)
     # call the simulate method to run the actual simulation
     floor.simulate(maxtime=args.max_time, spread_fire=not args.no_spread_fire,
                    gui=not args.no_graphical_output)
