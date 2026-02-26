@@ -49,6 +49,8 @@ python evacuate.py -n 50 -f   # run without fire spread
 ## Updated Visualization
 The GUI now displays the current simulation time in the plot title, e.g., `Fire Evacuation Simulation (Time: 12.34s)`. This helps track progress during long runs.
 
+**New behavior:** after a run completes the final simulation frame remains on screen and the program will block until you close the figure window. This lets you inspect the last state rather than having the window disappear automatically.
+
 ## Known Issues & Fixes
 - **TypeError** caused by using a NumPy array as a dictionary key has been fixed by storing agent locations as immutable tuples.
 - Improved logging and clearer output for debugging.

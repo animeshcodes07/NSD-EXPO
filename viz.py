@@ -43,7 +43,7 @@ class Plotter:
         plt.scatter(x, y, c=c, cmap=cmap, norm=norm, edgecolors='white', linewidths=0.5, s=100)
 
 
-    def visualize(self, graph={(3,4): {'F': 1}}, people=None, delay=.01, t=None):
+    def visualize(self, graph={(3,4): {'F': 1}}, people=None, delay=.01, t=None, keep=False):
         '''
         Draw the current state of `graph` and `people`.
 
@@ -55,6 +55,10 @@ class Plotter:
             List of Person objects to plot.
         delay : float
             Time (seconds) to pause after drawing; controls animation speed.
+        keep : bool
+            If True the figure will **not** be cleared after the pause.  This
+            allows the final frame of a simulation to remain on-screen until
+            the user closes the window.  (default: ``False``)
         '''
 
         # an arbitrary assignment of integers for each of the attributes for our
@@ -112,7 +116,9 @@ class Plotter:
         # matplotlib housekeeping
         plt.draw()
         plt.pause(max(delay, 0.001))
-        plt.clf()
+        # only clear the figure if we're not being asked to keep it around
+        if not keep:
+            plt.clf()
 
 
 
