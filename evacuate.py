@@ -17,6 +17,9 @@ import pickle
 import random
 import pprint
 from argparse import ArgumentParser
+
+# visualization library used by Plotter; imported here so we can call show()
+import matplotlib.pyplot as plt
 # `randomgen` changed its API in recent versions; older releases
 # exported `RandomGenerator` or `Generator`, but the current package
 # exposes a lowercase `generator` attribute.  the original code attempted
@@ -172,11 +175,26 @@ class FireSim:
              )
 
 
-    def visualize(self, delay):
+    def visualize(self, delay, *, keep=False, t=None):
         '''
+        Wrapper around ``Plotter.visualize`` that uses the current graph,
+        people and simulation clock.  Extra keyword arguments are used to
+        control the final frame behaviour.
+
+        Parameters
+        ----------
+        delay : float
+            Delay passed through to the plotter.
+        keep : bool
+            If True the plot will not be cleared after drawing.
+        t : float | None
+            Optional time to display in the title (defaults to ``self.sim.now``).
         '''
         if self.gui:
-            self.plotter.visualize(self.graph, self.people, delay, t=self.sim.now)
+            if t is None:
+                t = self.sim.now
+            self.plotter.visualize(self.graph, self.people, delay, t=t,
+                                   keep=keep)
 
 
     def update_bottlenecks(self):
@@ -376,7 +394,12 @@ class FireSim:
         
         print('='*60 + '\n')
 
-        self.visualize(4)
+        # draw a final frame and keep it on screen
+        self.visualize(delay=4, keep=True)
+        if self.gui:
+            # block until user closes the figure window
+            print('Simulation complete. Close the figure window to exit.')
+            plt.show()
 
 
 def main():
